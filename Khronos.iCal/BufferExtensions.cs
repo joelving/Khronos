@@ -3,7 +3,7 @@ using System.Buffers;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace Khronos.Shared
+namespace Khronos.iCal
 {
     public static class BufferExtensions
     {
@@ -78,9 +78,11 @@ namespace Khronos.Shared
 
         public static bool MatchesFrom<T>(in this ReadOnlySequence<T> source, ReadOnlySpan<T> value, SequencePosition? position = null) where T : IEquatable<T>
         {
-            var candidate = position == null ? source : source.Slice(position.Value, value.Length);
-            if (candidate.Length != value.Length)
+            var slice = position == null ? source : source.Slice(position.Value);
+            if (slice.Length < value.Length)
                 return false;
+
+            var candidate = slice.Slice(0, value.Length);
 
             int i = 0;
             foreach (var sequence in candidate)

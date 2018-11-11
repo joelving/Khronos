@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Server" Version="0.6.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Khronos.Data\Khronos.Data.csproj" />
+    <ProjectReference Include="..\Khronos.iCal\Khronos.iCal.csproj" />
+    <ProjectReference Include="..\Khronos.Web.Client\Khronos.Web.Client.csproj" />
+    <ProjectReference Include="..\Khronos.Web.Shared\Khronos.Web.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

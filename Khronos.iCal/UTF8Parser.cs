@@ -72,16 +72,6 @@ namespace Khronos.iCal
             }
         }
 
-        private static void ThrowEOF()
-        {
-            throw new NotImplementedException();
-        }
-
-        private static void ThrowCanceled()
-        {
-            throw new NotImplementedException();
-        }
-
         private static bool TryParseEvent(ReadOnlySequence<byte> buffer, out Event nextEvent, out SequencePosition consumedTo)
         {
             // Find the start of the event

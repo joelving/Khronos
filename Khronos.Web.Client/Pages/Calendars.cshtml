@@ -1,0 +1,61 @@
+﻿@page "/calendars"
+@inherits CalendarsComponent
+
+<h1>Calendars</h1>
+
+<input type="text" bind="@NewCalendarName" />
+<input type="text" bind="@NewCalendarUrl" />
+<button onclick="@AddCalendar">Add</button>
+
+@if (ErrorMessages.Any())
+{
+<div class="text-error">
+    @foreach (var error in ErrorMessages)
+    {
+        <span>@error</span><br />
+    }
+</div>
+}
+@if (!Calendars.Any())
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Url</th>
+                <th>Latest snapshot</th>
+                <th># events registered</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var calendar in Calendars)
+            {
+                <tr>
+                    <td>@calendar.Name</td>
+                    <td>@calendar.Url</td>
+                    <td>@calendar.LatestSnapshot?.FetchedOn</td>
+                    <td>@calendar.LatestSnapshot?.NumberOfEvents</td>
+                    <td>
+                        @if (jobProgress.ContainsKey(calendar.Url))
+                        {
+                            <span>@jobProgress[calendar.Url].Item2</span>
+                            @if (!jobProgress[calendar.Url].Item1)
+                            {
+                                <button title="Refresh calendar" onclick="@(() => RefreshCalendar(calendar.Url))">Refresh</button>
+                            }
+                        }
+                        else
+                        {
+                        <button title="Refresh calendar" onclick="@(() => RefreshCalendar(calendar.Url))">Refresh</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

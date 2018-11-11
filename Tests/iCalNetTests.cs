@@ -17,7 +17,7 @@ namespace Tests
 
             var events = iCalNetParser.LoadAndParseFeed(file);
 
-            Assert.Equal(1153, events.Count);
+            Assert.Equal(1159, events.Count);
         }
     }
 }

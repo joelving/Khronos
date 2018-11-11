@@ -11,10 +11,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks", "Benchmarks\Benchmarks.csproj", "{3E4383DB-86D7-436B-9DE2-F212A0C5FB03}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Khronos.Web.Server", "Khronos.Web.Server\Khronos.Web.Server.csproj", "{675BD13A-EF06-4467-ACAE-952A31F02B63}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Khronos.Web.Client", "Khronos.Web.Client\Khronos.Web.Client.csproj", "{AFADC746-31B4-47A9-9E32-E5866DD1BBE6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Khronos.Web.Shared", "Khronos.Web.Shared\Khronos.Web.Shared.csproj", "{C9BE2039-9741-4E9F-A09B-0C5EDA7C8987}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Khronos.Data", "Khronos.Data\Khronos.Data.csproj", "{0A51E17A-CBD0-4B5F-A375-AD3130DE8DFD}"
+EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -36,11 +41,30 @@ Global
 		{3E4383DB-86D7-436B-9DE2-F212A0C5FB03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E4383DB-86D7-436B-9DE2-F212A0C5FB03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E4383DB-86D7-436B-9DE2-F212A0C5FB03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{675BD13A-EF06-4467-ACAE-952A31F02B63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{675BD13A-EF06-4467-ACAE-952A31F02B63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{675BD13A-EF06-4467-ACAE-952A31F02B63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{675BD13A-EF06-4467-ACAE-952A31F02B63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFADC746-31B4-47A9-9E32-E5866DD1BBE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFADC746-31B4-47A9-9E32-E5866DD1BBE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFADC746-31B4-47A9-9E32-E5866DD1BBE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFADC746-31B4-47A9-9E32-E5866DD1BBE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9BE2039-9741-4E9F-A09B-0C5EDA7C8987}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9BE2039-9741-4E9F-A09B-0C5EDA7C8987}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9BE2039-9741-4E9F-A09B-0C5EDA7C8987}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9BE2039-9741-4E9F-A09B-0C5EDA7C8987}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A51E17A-CBD0-4B5F-A375-AD3130DE8DFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A51E17A-CBD0-4B5F-A375-AD3130DE8DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A51E17A-CBD0-4B5F-A375-AD3130DE8DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A51E17A-CBD0-4B5F-A375-AD3130DE8DFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D9C381-B7C7-42A1-ADBC-80C04DBEC80D}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

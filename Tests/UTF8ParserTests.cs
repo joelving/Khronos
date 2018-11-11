@@ -19,7 +19,7 @@ namespace Tests
 
             var events = await UTF8Parser.LoadAndParseFeed(file);
 
-            Assert.Equal(1153, events.Count);
+            Assert.Equal(1159, events.Count);
         }
 
         [Fact]
