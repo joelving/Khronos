@@ -16,7 +16,10 @@ namespace Khronos.Web.Shared
         {
             Name = calendar.Name;
             Url = calendar.Url;
-            LatestSnapshot.ReplaceWith(calendar.LatestSnapshot);
+            if (LatestSnapshot is null)
+                LatestSnapshot = calendar.LatestSnapshot;
+            else
+                LatestSnapshot.ReplaceWith(calendar.LatestSnapshot);
         }
     }
 }

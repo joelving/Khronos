@@ -1,4 +1,5 @@
 using Khronos.Data;
+using Khronos.Shared;
 using Khronos.Web.Server.Hubs;
 using Khronos.Web.Server.Services;
 using Khronos.Web.Shared;
@@ -35,12 +36,16 @@ namespace Khronos.Web.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContextPool<CalendarFeedDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                options.EnableSensitiveDataLogging();
+            });
 
-            services.AddSingleton<IClock>(SystemClock.Instance);
-            services.AddHostedService<SyncJobQueueService>();
+            services.AddSingleton<IBackgroundQueue<SyncJob>>(new SyncJobQueue(50));
+            services.AddTransient<IBackgroundJobProcessor<SyncJob>, SyncJobProcessor>();
+            services.AddHostedService<BackgroundQueueService<SyncJob>>();
             services.AddSingleton<SyncJobStateCache>();
-            services.AddSingleton<ISyncJobQueue, SyncJobQueue>();
+            services.AddSingleton<IClock>(SystemClock.Instance);
             services.AddHttpClient("RetryBacking")
                 .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler())
                 .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]

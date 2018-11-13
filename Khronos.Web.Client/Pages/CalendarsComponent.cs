@@ -12,11 +12,12 @@ namespace Khronos.Web.Client.Pages
 {
     public class CalendarsComponent : BlazorComponent, ICalendarClient, IDisposable
     {
-        readonly Dictionary<Guid, string> jobToCalendar = new Dictionary<Guid, string>();
+        protected List<CalendarFeed> Calendars = null;
 
+        private readonly Dictionary<Guid, string> jobToCalendar = new Dictionary<Guid, string>();
         protected Dictionary<string, (bool, string)> jobProgress = new Dictionary<string, (bool, string)>();
-        protected List<CalendarFeed> Calendars = new List<CalendarFeed>();
         protected List<string> ErrorMessages = new List<string>();
+
         protected string NewCalendarName;
         protected string NewCalendarUrl;
 
@@ -71,10 +72,13 @@ namespace Khronos.Web.Client.Pages
             {
                 ErrorMessages = result.ErrorMessages;
                 StateHasChanged();
-                return;
             }
-
-            await callback(result);
+            else
+            {
+                ErrorMessages = result.ErrorMessages;
+                await callback(result);
+                StateHasChanged();
+            }
         }
         public async Task SetProgress(JobProgressResult result)
         {

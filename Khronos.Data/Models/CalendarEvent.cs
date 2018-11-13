@@ -27,8 +27,9 @@ namespace Khronos.Data.Models
         [NotMapped]
         public List<string> Attendees { get => _attendees.Split(new[] { "#|#" }, StringSplitOptions.RemoveEmptyEntries).ToList(); set => _attendees = string.Join("#|#", value); }
 
-        public static CalendarEvent FromEvent(Event @event)
-            => new CalendarEvent
+        public static CalendarEvent FromEvent(Event @event, CalendarSnapshot snapshot = default)
+        {
+            var ev = new CalendarEvent
             {
                 UId = @event.UId,
                 Start = @event.Start,
@@ -38,5 +39,9 @@ namespace Khronos.Data.Models
                 Summary = @event.Summary,
                 Attendees = @event.Attendees.Select(a => a).ToList()
             };
+            if (snapshot != default)
+                ev.SnapshotId = snapshot.Id;
+            return ev;
+        }
     }
 }

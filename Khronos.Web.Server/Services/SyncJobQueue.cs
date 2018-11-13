@@ -6,33 +6,35 @@ using System.Threading.Tasks;
 
 namespace Khronos.Web.Server.Services
 {
-    public interface ISyncJobQueue
-    {
-        void QueueSyncJob(SyncJob job);
-
-        Task<SyncJob> DequeueAsync(CancellationToken cancellationToken);
-    }
-
-    public class SyncJobQueue : ISyncJobQueue
+    public class SyncJobQueue : IBackgroundQueue<SyncJob>
     {
         private ConcurrentQueue<SyncJob> _workItems = new ConcurrentQueue<SyncJob>();
-        private SemaphoreSlim _signal = new SemaphoreSlim(0);
+        private SemaphoreSlim _queuedItems = new SemaphoreSlim(0);
+        private SemaphoreSlim _maxQueueSize;
 
-        public void QueueSyncJob(SyncJob job)
+        public SyncJobQueue(int maxQueueSize)
+        {
+            _maxQueueSize = new SemaphoreSlim(maxQueueSize);
+        }
+
+        public async Task EnqueueAsync(SyncJob job, CancellationToken cancellationToken)
         {
             if (job == null)
                 throw new ArgumentNullException(nameof(job));
 
+            // This causes callers to wait until there's room in the queue.
+            await _maxQueueSize.WaitAsync(cancellationToken);
             _workItems.Enqueue(job);
-            _signal.Release();
+            _queuedItems.Release();
         }
 
-        public async Task<SyncJob> DequeueAsync(CancellationToken cancellationToken)
+        public async Task<(SyncJob job, Action callback)> DequeueAsync(CancellationToken cancellationToken)
         {
-            await _signal.WaitAsync(cancellationToken);
+            // This ensures we can never dequeue unless the semaphore has been increased by a corresponding release.
+            await _queuedItems.WaitAsync(cancellationToken);
             _workItems.TryDequeue(out var job);
 
-            return job;
+            return (job, () => _maxQueueSize.Release());
         }
     }
 }

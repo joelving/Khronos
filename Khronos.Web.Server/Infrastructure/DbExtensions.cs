@@ -47,8 +47,11 @@ namespace Khronos.Web.Server.Infrastructure
             var feed = await context.CalendarFeeds.AsNoTracking().Select(f => new { f.Id, f.Name, f.Url }).FirstOrDefaultAsync(f => f.Url == url);
 
             // Get latest snapshot
+            var latestSnapshot = await context.CalendarSnapshots.AsNoTracking()
+                .Where(s => s.CalendarId == feed.Id)
+                .MaxAsync(cs => cs.FetchedOn);
             var snapshot = await context.CalendarSnapshots.Include(s => s.Events).AsNoTracking()
-                .FirstOrDefaultAsync(s => s.CalendarId == feed.Id && s.FetchedOn == context.CalendarSnapshots.Max(cs => cs.FetchedOn));
+                .FirstOrDefaultAsync(s => s.CalendarId == feed.Id && s.FetchedOn == latestSnapshot);
             
             // Get event counts for snapshots
             var eventCount = await context.CalendarEvents.AsNoTracking()
@@ -58,7 +61,7 @@ namespace Khronos.Web.Server.Infrastructure
             {
                 Name = feed.Name,
                 Url = feed.Url,
-                LatestSnapshot =new Shared.SnapshotMeta
+                LatestSnapshot = new Shared.SnapshotMeta
                 {
                     FetchedOn = snapshot.FetchedOn.ToDateTimeUtc(),
                     NumberOfEvents = eventCount

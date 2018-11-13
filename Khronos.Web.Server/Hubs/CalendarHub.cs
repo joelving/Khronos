@@ -16,10 +16,10 @@ namespace Khronos.Web.Server.Hubs
     public class CalendarHub : Hub<ICalendarClient>, ICalendarHub
     {
         private readonly CalendarFeedDbContext _dbContext;
-        private readonly ISyncJobQueue _syncJobQueue;
+        private readonly IBackgroundQueue<SyncJob> _syncJobQueue;
         private readonly SyncJobStateCache _progressCache;
 
-        public CalendarHub(CalendarFeedDbContext dbContext, ISyncJobQueue syncJobQueue, SyncJobStateCache progressCache)
+        public CalendarHub(CalendarFeedDbContext dbContext, IBackgroundQueue<SyncJob> syncJobQueue, SyncJobStateCache progressCache)
         {
             _dbContext = dbContext;
             _syncJobQueue = syncJobQueue;
@@ -72,7 +72,7 @@ namespace Khronos.Web.Server.Hubs
                 Owner = Context.User.Identity?.Name
             };
 
-            _syncJobQueue.QueueSyncJob(job);
+            await _syncJobQueue.EnqueueAsync(job, Context.ConnectionAborted);
 
             await Clients.Caller.CalendarRefreshing(new RefreshCalendarResult
             {
