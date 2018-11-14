@@ -56,18 +56,11 @@ namespace Khronos.Web.Server
                 }));
 
             services.AddConnections();
-            services
-                .AddSignalR(options => {
+            services.AddSignalR(options => {
                     options.KeepAliveInterval = TimeSpan.FromSeconds(5);
                     options.EnableDetailedErrors = true;
                 })
                 .AddJsonProtocol();
-
-            services.AddMvc()
-                .AddJsonOptions(options =>
-                {
-                    options.SerializerSettings.ConfigureForNodaTime(DateTimeZoneProviders.Serialization);
-                });
 
             services.AddResponseCompression(options =>
             {
@@ -95,8 +88,6 @@ namespace Khronos.Web.Server
             {
                 route.MapHub<CalendarHub>($"/{nameof(ICalendarHub)}");
             });
-
-            app.UseMvc();
 
             app.UseBlazor<Client.Startup>();
         }
