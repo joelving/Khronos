@@ -47,6 +47,12 @@ namespace Khronos.Web.Server.Services
                 await SetProgress(job.Id, true, "Fetching iCal feed.", _hubContext);
                 // Make sure to pass response stream off to pipe before buffering. Otherwise, we'd not see much benefit of using pipes.
                 var response = await _httpClient.GetAsync(job.FeedUrl, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+                if (!response.IsSuccessStatusCode)
+                {
+                    await SetProgress(job.Id, true, $"Failed to fecth iCal feed: {response.ReasonPhrase}.", _hubContext);
+                    return;
+                }
+
                 await SetProgress(job.Id, true, "Parsing iCal feed.", _hubContext);
                 var events = await UTF8Parser.ProcessFeed(await response.Content.ReadAsStreamAsync());
 
